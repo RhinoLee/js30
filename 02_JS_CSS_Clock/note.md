@@ -1,0 +1,1 @@
+* requestAnimationFrame : 處理畫面更新的 setTimeout, 根據硬體設備決定更新時間。
