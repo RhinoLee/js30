@@ -56,19 +56,83 @@
       transform: translateY(-3px); /* account for the height of the clock hands */
     }
 
-    .hand {
-      width: 50%;
-      height: 6px;
-      background: black;
+    .clock-face::after {
+      content: '';
       position: absolute;
+      display: block;
       top: 50%;
+      left: 50%;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+    }
+
+    .hand {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hour-hand::after, .min-hand::after, .second-hand::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: 50%;
+      left: 50%;
+      transform: translate(-50%, 0%);
+      background: #f00;
+    }
+
+    .hour-hand::after {
+      height: 20%;
+      width: 10px;
+    }
+
+    .min-hand::after {
+      height: 35%;
+      width: 6px;
+    }
+
+    .second-hand::after {
+      height: 50%;
+      width: 2px;
     }
 
   </style>
 
   <script>
 
+    (function() {
+
+      const secondHand = document.querySelector('.second-hand')
+      const minHand = document.querySelector('.min-hand')
+      const hourHand = document.querySelector('.hour-hand')
+      
+      
+      function setHand() {
+        let nowTime = new Date()
+        let secondHandPos = nowTime.getSeconds() * 6
+        let minHandPos = nowTime.getMinutes() * 6 + nowTime.getSeconds() * .1
+        let hourHandPos = nowTime.getHours() * 30 + nowTime.getMinutes() * .5
+
+        secondHand.style.transform = `rotate(${secondHandPos}deg)`
+        minHand.style.transform = `rotate(${minHandPos}deg)`
+        hourHand.style.transform = `rotate(${hourHandPos}deg)`
+
+        setTimeout(setHand, 1000)
+      } 
+
+
+      setHand()
+
+    })();
 
   </script>
+
+
 </body>
 </html>
