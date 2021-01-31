@@ -22,9 +22,11 @@
 
   <style>
 
-    /*
-      misc styles, nothing to do with CSS variables
-    */
+    :root {
+      --base: #d6b161;
+      --spacing: 10px;
+      --blur: 10px;
+    }
 
     body {
       text-align: center;
@@ -33,6 +35,12 @@
       font-family: 'helvetica neue', sans-serif;
       font-weight: 100;
       font-size: 50px;
+    }
+
+    img { 
+      background: var(--base);
+      padding: var(--spacing);
+      filter: blur(var(--blur));
     }
 
     .controls {
@@ -45,6 +53,33 @@
   </style>
 
   <script>
+
+    (function() {
+      
+      const inputs = document.querySelectorAll('input')
+      const img = document.querySelectorAll('img')
+
+      function changeHandler(e) {
+
+        let styleValue = this.value
+        let styleProperty = this.name
+        let styleUnit = this.dataset.sizing ? this.dataset.sizing : ''
+        
+        document.querySelector(':root').style.setProperty(`--${styleProperty}`, styleValue + styleUnit)
+
+      }
+
+      inputs.forEach( input => {
+        input.addEventListener('change', changeHandler)
+        input.addEventListener('mousedown', function(e){
+          if(this.id !== 'base') {
+            input.addEventListener('mousemove', changeHandler)
+          }
+        })
+      })
+
+    })();
+
   </script>
 
 </body>
